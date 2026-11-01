@@ -3,6 +3,7 @@ node_modules
 artifacts
 cache
 hardhat-nodejs
+nextjs-nodejs
 .env.local
 coverage
 tsconfig.tsbuildinfo
