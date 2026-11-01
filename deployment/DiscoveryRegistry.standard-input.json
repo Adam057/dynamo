@@ -1,0 +1,29 @@
+{
+  "language": "Solidity",
+  "sources": {
+    "contracts/DiscoveryRegistry.sol": {
+      "content": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.24;\n\ncontract DiscoveryRegistry {\n    error EmptyCommitment();\n    error UnknownDiscovery();\n    struct Discovery { address creator; bytes32 modelHash; bytes32 datasetHash; bytes32 metadataHash; uint64 timestamp; uint64 parentId; uint64 verificationCount; }\n    uint256 private count;\n    mapping(uint256 => Discovery) private discoveries;\n    event DiscoveryRegistered(uint256 indexed id, address indexed creator, uint256 indexed parentId, bytes32 modelHash);\n    event VerificationSubmitted(uint256 indexed id, address indexed verifier, bytes32 reportHash);\n    function registerDiscovery(bytes32 modelHash, bytes32 datasetHash, bytes32 metadataHash) external returns (uint256) { return _register(modelHash,datasetHash,metadataHash,0); }\n    function registerImprovement(uint256 parentId, bytes32 modelHash, bytes32 datasetHash, bytes32 metadataHash) external returns (uint256) { if(parentId==0||parentId>count)revert UnknownDiscovery();return _register(modelHash,datasetHash,metadataHash,parentId); }\n    function _register(bytes32 modelHash, bytes32 datasetHash, bytes32 metadataHash, uint256 parentId) internal returns(uint256 id) { if(modelHash==0||datasetHash==0||metadataHash==0)revert EmptyCommitment(); id=++count; discoveries[id]=Discovery(msg.sender,modelHash,datasetHash,metadataHash,uint64(block.timestamp),uint64(parentId),0);emit DiscoveryRegistered(id,msg.sender,parentId,modelHash); }\n    function submitVerification(uint256 id, bytes32 reportHash) external { if(id==0||id>count)revert UnknownDiscovery();if(reportHash==0)revert EmptyCommitment();discoveries[id].verificationCount++;emit VerificationSubmitted(id,msg.sender,reportHash); }\n    function getDiscovery(uint256 id) external view returns(Discovery memory) { if(id==0||id>count)revert UnknownDiscovery();return discoveries[id]; }\n    function getDiscoveryCount() external view returns(uint256) { return count; }\n}\n"
+    }
+  },
+  "settings": {
+    "optimizer": {
+      "enabled": true,
+      "runs": 200
+    },
+    "evmVersion": "paris",
+    "outputSelection": {
+      "*": {
+        "*": [
+          "abi",
+          "evm.bytecode",
+          "evm.deployedBytecode",
+          "evm.methodIdentifiers",
+          "metadata"
+        ],
+        "": [
+          "ast"
+        ]
+      }
+    }
+  }
+}
