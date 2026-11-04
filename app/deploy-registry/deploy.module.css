@@ -1,0 +1,20 @@
+.shell{min-height:100vh;padding:48px 20px;background:#e9e2d6;color:#1b1d1a;font-family:Arial,Helvetica,sans-serif}
+.card{max-width:900px;margin:auto;padding:36px;border:1px solid #cfc6b8;border-radius:24px;background:#f7f1e7;box-shadow:0 18px 50px #4d443222}
+.kicker{text-transform:uppercase;letter-spacing:.18em;font-size:12px;font-weight:700}
+.card h1{font-family:Georgia,serif;font-size:clamp(30px,4vw,54px);font-weight:400;line-height:1.05;margin:16px 0}
+.card p{line-height:1.5}
+.facts{margin:30px 0;border-top:1px solid #d9d0c2}
+.facts div{display:grid;grid-template-columns:minmax(150px,210px) 1fr;gap:20px;padding:13px 0;border-bottom:1px solid #d9d0c2}
+.facts dt{color:#66645e}
+.facts dd{margin:0;font-weight:600;overflow-wrap:anywhere}
+.mono{font-family:Consolas,monospace;font-size:.9em;overflow-wrap:anywhere}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin:24px 0}
+.actions button,.deploy{border:1px solid #222824;border-radius:100px;padding:12px 18px;background:transparent;color:#1b1d1a;font:inherit;cursor:pointer}
+.actions button:hover:not(:disabled){background:#e4dfd4}
+.actions button:disabled,.deploy:disabled{opacity:.45;cursor:not-allowed}
+.deploy{display:block;width:100%;padding:17px 20px;background:#1b1f1b;color:white;font-weight:700}
+.deploy:hover:not(:disabled){background:#353c31}
+.checks{padding:18px 18px 18px 38px;border-radius:14px;background:#eee7d5;line-height:1.6}
+.error{padding:14px 18px;border-radius:12px;background:#f7ddd7;color:#831e14}
+.note{font-size:14px;color:#595d54}
+@media(max-width:600px){.shell{padding:16px}.card{padding:24px 18px}.facts div{grid-template-columns:1fr;gap:3px}.actions button{width:100%}}
