@@ -37,6 +37,18 @@ describe('wallet adapter with a mocked EIP-1193 provider', () => {
     await expect(ensureBscMainnet({request}, vi.fn())).rejects.toThrow('not on BNB Smart Chain');
   });
 
+  it('offers the official BSC mainnet configuration if the chain is missing', async () => {
+    let chain = '0x1';
+    const request = vi.fn(async ({method}: {method:string}) => {
+      if (method === 'eth_chainId') return chain;
+      if (method === 'wallet_switchEthereumChain') throw {code:4902};
+      if (method === 'wallet_addEthereumChain') { chain = '0x38'; return null; }
+      throw new Error('Unexpected wallet method');
+    });
+    await ensureBscMainnet({request}, vi.fn());
+    expect(request).toHaveBeenCalledWith({method:'wallet_addEthereumChain',params:[expect.objectContaining({chainId:'0x38',rpcUrls:['https://bsc-dataseed.bnbchain.org']})]});
+  });
+
   it('tracks account and chain changes and removes listeners on disconnect', () => {
     const listeners = new Map<string,(value:any)=>void>();
     const removeListener=vi.fn((event:string) => listeners.delete(event));

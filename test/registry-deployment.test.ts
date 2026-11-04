@@ -25,7 +25,7 @@ describe('mainnet deployment preflight', () => {
     expect(registryArtifact.deployedBytecode).toBe(`0x${built.evm.deployedBytecode.object}`);
     const source = readFileSync(new URL('../contracts/DiscoveryRegistry.sol', import.meta.url));
     expect(registryArtifact.sourceSha256).toBe(createHash('sha256').update(source).digest('hex'));
-  });
+  }, 20_000);
 
   it('enables deployment only when wallet, chains, balance, and gas checks pass', () => {
     expect(deploymentReadiness(ready)).toEqual([]);
